@@ -26,20 +26,27 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [total, setTotal] = useState(0)
+  const average = total > 0 ? (good - bad) / total : 0;
+  const positivePercent = total > 0 ? (good * 100) / total : 0;
+
 
   const handleGoodClick = () => {
     const updatedGood = good + 1
     setGood(updatedGood)
+    setTotal(updatedGood + neutral + bad)
     console.log("good button stats ",good+1)
   }
   const handleNeutralClick = () => {
     const updatedNeutral = neutral + 1
     setNeutral(updatedNeutral)
+    setTotal(updatedNeutral + good + bad)
     console.log("neutral button stats ",neutral+1)
   }
   const handleBadClick = () => {
     const updatedBad = bad + 1
     setBad(updatedBad)
+    setTotal(updatedBad + good + neutral)
     console.log("bad button stats ",bad+1)
   }
 
@@ -54,6 +61,11 @@ const App = () => {
       <Display flag="good" value={good}/>
       <Display flag="neutral" value={neutral}/>
       <Display flag="bad" value={bad}/>
+
+      <p>all {total}</p>
+      <Display flag="average " value={average} />
+      <Display flag="positive " value={positivePercent} />
+
     </div>
   )
 }
