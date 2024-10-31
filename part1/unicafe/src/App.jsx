@@ -18,6 +18,28 @@ const Statistics = (props) => (
   </p>
 )
 
+const History = (props) => {
+  if (props.total.length === 0) {
+    return (
+      <div>
+        no feedback given
+      </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        <Statistics flag={props.goodFlag} value={props.goodVal}/>
+        <Statistics flag={props.neutralFlag} value={props.neutralVal}/>
+        <Statistics flag={props.badFlag} value={props.badVal}/>
+        <Statistics flag={props.totalFlag} value={props.totalVal}/>
+        <Statistics flag={props.avgFlag} value={props.avgVal}/>
+        <Statistics flag={props.percentFlag} value={props.percentVal}/>
+      </div>
+    )
+  }
+}
+
 
 const App = () => {
   // guarda los clics de cada botón en su propio estado
@@ -26,7 +48,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState([])
   const average = total > 0 ? (good - bad) / total : 0;
   const positivePercent = total > 0 ? (good * 100) / total : 0;
 
@@ -58,13 +80,7 @@ const App = () => {
       <Button handleClick={handleBadClick} text="bad" />
 
       <Title text={title2} />
-      <Statistics flag="good" value={good}/>
-      <Statistics flag="neutral" value={neutral}/>
-      <Statistics flag="bad" value={bad}/>
-
-      <Statistics flag="all " value={total} />
-      <Statistics flag="average " value={average} />
-      <Statistics flag="positive " value={positivePercent} />
+      <History total={total} goodFlag="good" goodVal={good} neutralFlag="neutral" neutralVal={neutral} badFlag="bad" badVal={bad} totalFlag="all" totalVal={total} avgFlag="average" avgVal={average} percentFlag="positive" percentVal={positivePercent} />
 
     </div>
   )
