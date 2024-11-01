@@ -1,5 +1,11 @@
 import { useState } from 'react'
 
+const Title = (props) => {
+  return (
+    <h1>{props.text}</h1>
+  )
+}
+
 const Anecdote = (props) => {
   return (
     <p>{props.text}</p>
@@ -17,6 +23,26 @@ const Button = ({handleClick , text}) => (
     {text}
   </button>
 )
+
+const MostVotesAnecdote = (props) => {
+  const anecdotes = props.anecdotes
+  const points = props.points
+  const [mayor, setMayor] = useState(0)
+  const [pos, setPos] = useState(0)
+  return (
+    <p>
+      {points.map((val,i) => {
+        if (val > mayor) {
+          setMayor(val)
+          setPos(i)
+          console.log("mayor ",mayor)
+          console.log("indice ",i)
+        }
+      })}
+      {anecdotes[pos]}
+    </p>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -36,10 +62,10 @@ const App = () => {
 
   const handlePoints = () => {
     const copy = [...points]
-    console.log(copy)
     copy[selected] += 1
     console.log(copy)
     setPoints(copy)
+
   }
 
   const handleAnecdote = () => {
@@ -50,12 +76,15 @@ const App = () => {
 
   return (
     <div>
+      <Title text="Anecdote of the day" />
       <Anecdote text={anecdotes[selected]} />
       <Votes val={points[selected]} />
       <div>
-      <Button handleClick={handlePoints} text="vote" />
-      <Button handleClick={handleAnecdote} text="next anecdote" />
+        <Button handleClick={handlePoints} text="vote" />
+        <Button handleClick={handleAnecdote} text="next anecdote" />
       </div>
+      <Title text="Anecdote with most votes" />
+      <MostVotesAnecdote points={points} anecdotes={anecdotes} />
       
     </div>
   )
